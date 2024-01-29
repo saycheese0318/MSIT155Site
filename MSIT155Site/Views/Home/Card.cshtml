@@ -5,13 +5,13 @@
 <div class="row row-cols-1 row-cols-md-3 g-4">
     <div class="col">
         <div class="card h-100">
-            <img src="image" class="card-img-top" alt="image" id="img1">
+            <img id="travelImage" class="card-img-top" alt="image" >
             <div class="card-body">
-                <h5 class="card-title">Card title</h5>
-                <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                <h5 id="travelName" class="card-title">Card title</h5>
+                <p id="travelDescription" class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
             </div>
             <div class="card-footer">
-                <small class="text-body-secondary">Last updated 3 mins ago</small>
+                <small id="travelAddress" class="text-body-secondary">Last updated 3 mins ago</small>
             </div>
         </div>
     </div>
@@ -19,9 +19,17 @@
 
 @section Scripts {
     <script src="~/js/travel.js"></script>
-    <script>
-        const image = spots.CommonFormat.Section[0].file.img[0].text
-        console.log(image)
+    <script>     
+        const image = spots.CommonFormat.Section[0].file.img[0].text;
+        // 將圖像路徑暴露給HTML頁面
+        document.getElementById('travelImage').src = image;
+        // console.log(image)
+        const name = document.querySelector('#travelName');
+        name.innerHTML = spots.CommonFormat.Section[0].stitle;
+        const description = document.querySelector('#travelDescription');
+        description.innerHTML = spots.CommonFormat.Section[0].xbody.substring(0, 100);
+        const address = document.querySelector('#travelAddress');
+        address.innerHTML = spots.CommonFormat.Section[0].address;
     </script>
 
 }
