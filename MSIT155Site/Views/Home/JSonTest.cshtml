@@ -1,0 +1,81 @@
+﻿@{
+    ViewData["Title"] = "JSonTest";
+}
+
+<h1>JSonTest</h1>
+<ul id="ul1"></ul>
+
+@section Scripts {
+    <script>
+        const theUl = document.querySelector('#ul1');
+
+        // [ {},{},{} ]
+        const emps = [{ "name": "Tom", "workYears": 3, "salary": 35000 },
+        { "name": "Jack", "workYears": 5, "salary": 40000 },
+        { "name": "Mary", "workYears": 7, "salary": 45000 }];
+        //讀取JSON資料
+        // console.log(emps[2]);//{ "name": "Mary", "workYears": 7, "salary": 45000 }
+        // console.log(emps[2].name); //Mary
+        
+        // console.log(emps.length) // 3
+        // for (let i = 0, max = emps.length; i < max; i++) {
+        //     console.log(emps[i].name)
+        //     console.log(emps[i].workYears)
+        //     console.log(emps[i].salary)
+        // }
+        // emps.forEach(emp => {
+        //     console.log(emp.name)
+        //     console.log(emp.workYears)
+        //     console.log(emp.salary)
+        // })
+        //顯示在網頁上
+        // emps.forEach(emp => {    
+        //     //DOM
+        //     建立li標籤
+        //     const eleLi = document.createElement("li");  //<li></li>
+        //     建立文字節點
+        //     const txtLi = document.createTextNode(emp.name); //Mary
+        //     把文字節點加到li標籤裡面
+        //     eleLi.appendChild(txtLi); //<li>Mary</li>
+        //     theUl.appendChild(eleLi); //<ul><li>Mary</li></ul>
+        // })
+
+        //省略版
+        // const liEmps = emps.map(emp => `<li>${emp.name},${emp.workYears},${emp.salary}</li>`);
+        //原版
+        // const liEmps = emps.map(emp => {
+        //     return (`<li>${emp.name},${emp.workYears},${emp.salary}</li>`)                  
+        // });
+
+        const liEmps = emps.map(emp => {
+            const { name, workYears, salary } = emp;  //解構賦值 { "name": "Tom", "workYears": 3, "salary": 35000 }
+            return (`<li>${name},${workYears},${salary}</li>`)                  
+        });
+
+        theUl.innerHTML = liEmps.join("");
+
+
+        // [ " " : [] ]
+        const emp = {
+            "employees": [
+                { "name": "Tom", "workYears": 3, "salary": 35000 },
+                { "name": "Jack", "workYears": 5, "salary": 40000 },
+                { "name": "Mary", "workYears": 7, "salary": 45000 }
+            ]
+        };
+        //讀取JSON資料
+        // console.log(emp.employees); //[{ "name": "Tom", "workYears": 3, "salary": 35000 },{ "name": "Jack", "workYears": 5, "salary": 40000 },{ "name": "Mary", "workYears": 7, "salary": 45000 }]
+        // console.log(emp.employees[2]);//{ "name": "Mary", "workYears": 7, "salary": 45000 }
+        // console.log(emp.employees[2].name);//Mary
+        
+        // console.log(emps.length) // undefined
+
+        //顯示在網頁上
+
+        //JSon.parse(emp)      // 轉型成JSon
+        //JSon.stringify(emp)  // 轉型成string
+    </script>
+
+
+}
+

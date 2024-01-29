@@ -1,0 +1,117 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+@section Scripts {
+    <script>
+        // 等1秒，依序同時印出A、B、C
+        // setTimeout(function () {
+        //     console.log('A');
+        // }, 1000);
+        // setTimeout(function () {
+        //     console.log('B');
+        // }, 1000);
+        // setTimeout(function () {
+        //     console.log('C');
+        // }, 1000);
+
+        // 等1秒印出A，再等1秒印出B，再等1秒印出C(全部印出要3秒鐘)
+        // setTimeout(function () {
+        //     console.log('A');
+        // }, 3000);
+        // setTimeout(function () {
+        //     console.log('B');
+        // }, 2000);
+        // setTimeout(function () {
+        //     console.log('C');
+        // }, 1000);
+
+        // 非同步問題 – Callback Hell
+        // 等1秒印出A，再等1秒印出B，再等1秒印出C(全部印出要3秒鐘)
+        // setTimeout(function () {
+        //     console.log('A');
+        //     setTimeout(function () {
+        //         console.log('B');
+        //         setTimeout(function () {
+        //             console.log('C');
+        //         }, 1000);
+        //     }, 1000);
+        // }, 1000);
+
+
+
+
+        // 非同步問題(Callback Hell)的解決之道 - Promise(回呼函式)
+        // 建立Promise物件 ( new )
+        // const promise = new Promise(function (resolve, reject) { } )
+        // const promise = new Promise((resolve, reject) => { } )
+        // 使用Promise物件...
+        // console.log(promise);
+
+        // 建立Promise物件 ( new )
+        // const promise = new Promise((resolve, reject) => {
+        //     // 非同步程式碼  放在Promise當中
+        //     // XMLHttpRequest、FileReader、setTimeout
+        //     if (true) {
+        //         resolve("成功");
+        //     } else {
+        //         reject("失敗");
+        //     }
+        // })
+        // 使用Promise物件...
+        // promise
+        //   .then(data=>console.log(`success:${data}`)) // 印出success:成功
+        //   .catch(err=>console.log(`error：${err}`))   // 印出error:失敗
+        //   .finally(()=>console.log("end"))            // 不管是then或是catch最後都會執行finally
+
+        function show(data) {
+            // 建立Promise物件 ( new )
+            return new Promise((resolve, reject) => {
+                // 非同步程式碼  放在Promise當中
+                // XMLHttpRequest、FileReader、setTimeout
+                setTimeout(() => {
+                    resolve(data);
+                }, 1000)
+            })
+        }
+        // 使用Promise物件...
+        // show("A")
+        //     .then(data => {
+        //         console.log(data); // A
+        //         return show("B");
+        //     })
+        //     .then(data => {
+        //         console.log(data); // B
+        //         return show("C");
+        //     })
+        //     .then(data => {
+        //         console.log(data); // C
+        //     })
+
+        // 使用Promise物件...
+        // IIFE立即執行函式
+        // ( () => {} ) ( );
+        // async await
+        // 同步語法底層是非同步
+        (async () => {
+            let data = await show("A");
+            console.log(data); // A
+            data = await show("B");
+            console.log(data); // B
+            data = await show("C");
+            console.log(data); // C
+        })();
+        // async function aaa() { }
+        // aaa()
+
+
+
+
+
+    </script>
+}
