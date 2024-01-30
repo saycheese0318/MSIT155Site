@@ -5,7 +5,7 @@
 <div class="row row-cols-1 row-cols-md-3 g-4">
     <div class="col">
         <div class="card h-100">
-            <img id="travelImage" class="card-img-top" alt="image" >
+            <img id="travelImage" class="card-img-top" alt="image">
             <div class="card-body">
                 <h5 id="travelName" class="card-title">Card title</h5>
                 <p id="travelDescription" class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
@@ -19,7 +19,7 @@
 
 @section Scripts {
     <script src="~/js/travel.js"></script>
-    <script>     
+    <script>
         const image = spots.CommonFormat.Section[0].file.img[0].text;
         // 將圖像路徑暴露給HTML頁面
         document.getElementById('travelImage').src = image;

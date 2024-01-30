@@ -22,7 +22,7 @@ namespace MSIT155Site.Controllers
         {
             return View();
         }
-        public IActionResult Card()
+        public IActionResult First()
         {
             return View();
         }
