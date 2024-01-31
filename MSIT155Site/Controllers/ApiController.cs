@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MSIT155Site.Models;
+using MSIT155Site.Models.DTO;
 using System.Text;
 
 namespace MSIT155Site.Controllers
@@ -14,8 +15,23 @@ namespace MSIT155Site.Controllers
         }
         public IActionResult Index()
         {
+            Thread.Sleep(3000);
+            //int x = 10;
+            //int y = 0;
+            //int z = x / y;
             //Encoding.UTF8 將前面的Content編碼
             return Content("我是 Content", "text/plain", Encoding.UTF8);
+        }
+
+        //資料的接收
+        //public IActionResult Register(string name, int age = 28)
+        public IActionResult Register(UserDTO _user)
+        {
+            if (string.IsNullOrEmpty(_user.Name))
+            {
+                _user.Name = "guest";
+            }
+            return Content($"Hello {_user.Name}, {_user.Age}歲了, 電子郵件是 { _user.Email}", "text/plain", Encoding.UTF8);
         }
         public IActionResult Cities()
         {

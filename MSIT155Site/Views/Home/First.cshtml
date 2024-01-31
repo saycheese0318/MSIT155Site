@@ -5,28 +5,110 @@
 
 <h1>First Ajax Demo</h1>
 <input type="button" class="btn btn-primary mb-3" value="Ajax 開始" id="buttonStart" />
+<input type="button" class="btn btn-primary mb-3" value="Ajax 停止" id="buttonStop" />
+<img src="~/images/loading.gif" style="display:none" id="img1" />
 <div class="alert alert-info" id="divInfo"></div>
 
 @section Scripts {
     <script>
         const btnStart = document.querySelector('#buttonStart');
+        const btnStop = document.querySelector('#buttonStop');
         const divInfo = document.querySelector('#divInfo');
+        const imgLoader = document.querySelector('#img1');
 
-        btnStart.addEventListener('click', () => {
-            //ajax
-            // console.log(fetch("/api/index"));
-            fetch("/api/index")
-                .then(response => {
-                    // Response{}
-                    console.log(response);  
-                    //console.log(response.text());  // promise
-                    return response.text();  // 從body中取文字資料 // promise
-                })
-                .then(data => {
-                    // promise
-                    console.log(data); 
-                    divInfo.innerHTML = `<h3>${data}</h3>`;
-                })
+        let abortController;
+        //停止Ajax程式的執行abort()
+        btnStop.addEventListener('click', () => {
+            // 判斷abortController是否存在
+            if (abortController) {
+                abortController.abort();
+            }
+        })
+
+        btnStart.addEventListener('click', async () => {
+
+            try {
+
+                //顯示執行中的圖
+                imgLoader.style.display = "inline";
+                //disable button // 屬性名稱, 屬性值
+                btnStart.setAttribute('disabled', 'disabled');
+                btnStart.value = "執行中...";
+
+                //停止 fetch() 呼叫 - AbortController
+                // AbortController 可以用來取消非同步程式的執行
+                abortController = new AbortController();
+                //透過 signal 屬性傳遞取消信號給非同步程式
+                const signal = abortController.signal;
+
+                //透過 abort() 方法，取消非同步程式
+                //5秒鐘沒有回傳結果就停止程式的執行
+                setTimeout(() => {
+                    abortController.abort();
+                }, 5000)
+
+                const response = await fetch('@Url.Content("~/api/index")', { signal });
+                if (!response.ok) {
+                    throw new Error(`${response.status}`);
+                }
+                const data = await response.text();
+                divInfo.innerHTML = `<h3>${data}</h3>`;
+            } 
+                       
+            catch (error) {
+                //divInfo.innerHTML = `<h3>${error}</h3>`;
+                // console.log(error.name);
+                // console.log(error.message);
+                let message = error.messsage;
+                if (error.name === "AbortError") {
+                    message = "伺服器忙碌中，請稍後再來"
+                }
+                divInfo.innerHTML = `<h3>${message}</h3>`;
+
+            } 
+                        
+            finally {
+                console.log('finally');
+
+                //隱藏執行中圖示
+                imgLoader.style.display = "none";
+                btnStart.removeAttribute('disabled');
+                btnStart.value = "Ajax 開始";
+            }
+
+
+
+            // //ajax
+            // // console.log(fetch("/api/index"));
+
+            // // fetch('@Url.Action("Index", "api")’)
+            // fetch('@Url.Content("~/api/index")')
+            //     .then(response => {
+
+            //         //處理錯誤
+            //         if (!response.ok) 
+            //         {
+            //             throw new Error(`有錯誤 : ${response.status}`)
+            //         }
+
+            //         // Response{}
+            //         console.log(response);
+            //         //讀取 response header 中的資料
+            //         response.headers.forEach((value, name) => {
+            //             console.log(`${name}：${value}`)
+            //         })
+            //         console.log(response.headers.get('Content-Length'));
+            //         console.log(`OK: ${response.ok}`);
+            //         console.log(`Status：${response.status}`);
+            //         //讀取 response body 中的資料
+            //         //console.log(response.text());  // promise
+            //         return response.text();  // 從body中取文字資料 // promise
+            //     })
+            //     .then(data => {
+            //         // promise
+            //         console.log(data); 
+            //         divInfo.innerHTML = `<h3>${data}</h3>`;
+            //     })
 
 
         })
