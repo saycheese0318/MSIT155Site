@@ -42,8 +42,9 @@
                 const response = await fetch(tip);
                 const datas = await response.text();
                 console.log(datas);
+                
                 const divWarning = document.getElementById('divWarning');
-                divWarning.innerHTML = datas;
+                divWarning.innerHTML = (datas == 'True' ? '帳號已存在': '帳號可使用');
 
             });
 
