@@ -32,15 +32,21 @@ namespace MSIT155Site.Controllers
             {
                 return Content("帳號未填寫", "text/plain", Encoding.UTF8);
             }
-            var member = await _context.Members
-                .FirstOrDefaultAsync(m => m.Name == name);
-
-            string Name = member.Name;
-            if (Name == name)
+            if (_context.Members.Any(x => x.Name == name))
             {
-                return Content("帳號已存在", "text/plain", Encoding.UTF8);
+                return Content("True", "text/plain", Encoding.UTF8);
             }
-            return Content("帳號可使用", "text/plain", Encoding.UTF8);
+            return Content("False", "text/plain", Encoding.UTF8);
+
+            //var member = await _context.Members
+            //    .FirstOrDefaultAsync(m => m.Name == name);
+
+            //string Name = member.Name;
+            //if (Name == name)
+            //{
+            //    return Content("帳號已存在", "text/plain", Encoding.UTF8);
+            //}
+            //return Content("帳號可使用", "text/plain", Encoding.UTF8);
         }
     }
 }
