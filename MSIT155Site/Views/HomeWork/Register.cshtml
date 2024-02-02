@@ -38,7 +38,8 @@
             name.addEventListener('blur', async () => {
 
                 console.log(name);
-                const tip = '@Url.Content("~/HomeWork/CheckAccount")?name=' + name.value;
+                // const tip = `@Url.Content("~/HomeWork/CheckAccount")?name=${name.value}`;
+                const tip = `@Url.Content("~/HomeWork/CheckAccount")?name=` + name.value;
                 const response = await fetch(tip);
                 const datas = await response.text();
                 console.log(datas);
