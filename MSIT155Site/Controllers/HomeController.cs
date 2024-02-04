@@ -42,6 +42,10 @@ namespace MSIT155Site.Controllers
         {
             return View();
         }
+        public IActionResult Cors()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();

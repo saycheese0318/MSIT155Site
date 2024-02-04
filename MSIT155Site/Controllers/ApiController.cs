@@ -101,6 +101,10 @@ namespace MSIT155Site.Controllers
             {
                 spots = spots.Where(s => s.SpotTitle.Contains(_search.Keyword) || s.SpotDescription.Contains(_search.Keyword));
             }
+            if (!string.IsNullOrEmpty(_search.Title))
+            {
+                spots = spots.Where(s => s.SpotTitle.Contains(_search.Title)).Take(8);
+            }
             //排序
             switch (_search.SortBy)
             {

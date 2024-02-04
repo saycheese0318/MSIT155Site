@@ -1,0 +1,17 @@
+﻿
+@{
+    ViewData["Title"] = "Cors";
+}
+
+<h1>Cors</h1>
+
+@section Scripts{
+    <script>
+        (async () => {
+            // 呼叫Web API
+            const response = await fetch('https://localhost:7053/api/Categories');
+            const datas = await response.json();
+            console.log(datas);
+        })();
+    </script>
+}

@@ -3,8 +3,8 @@
 }
 
 <h1>Spots</h1>
-<div class="row" >
-    <div class="col-3"></div>
+<div class="row">
+    <div class="col-3" style="display:flex"></div>
     @* 分頁按鈕 *@
     <div class="col-6">
         <nav aria-label="Page navigation example" >
@@ -14,11 +14,12 @@
     </div>
     @* 搜尋字框 *@
     <div class="col-3" >
-        <input type="search" class="form-control" placeholder="景點搜尋" id="inputKeyword" />
+        <input type="search" class="form-control " placeholder="景點搜尋" id="inputKeyword"  />
+        <div class="list-group" id="divResult" ></div>
     </div>
 </div>
 
-<div class="row row-cols-1 row-cols-md-3 g-4" id="div1"></div>
+<div class="row row-cols-1 row-cols-md-3 g-4" id="div1" style="position:absolute ; z-index: 10;"></div>
 
 @section Scripts {
     <script>
@@ -32,7 +33,8 @@
             "page": 1,
             "pageSize": 9,
             "sortType": "asc",
-            "sortBy": ""
+            "sortBy": "",
+            "title": "",
         };
 
         const loadSpots = async () => {
@@ -52,7 +54,7 @@
                 return (`
                       <div class="col">
                           <div class="card h-100">
-                              <img src="${spotImage}" class="card-img-top" alt="${spotTitle}">
+                                              <img src="${spotImage}" class="card-img-top" alt="${spotTitle}">
                               <div class="card-body">
                                   <h5 class="card-title" >${spotId} - ${spotTitle}</h5>
                                   <p class="card-text">${spotDescription.length <= 100 ? spotDescription : spotDescription.substring(0, 100)}</p>
@@ -65,17 +67,36 @@
                       `)                                  
             })
             div1.innerHTML = divSpots.join("");
+
+            const atitles = datas.spotsResult.map(title => {
+                const { spotTitle } = title;
+                return (` <a style="position:absolute ; z-index: 20; onclick="clickHandler('${spotTitle}')" href="#" class="list-group-item list-group-item-action">${spotTitle}</a>`)
+
+            });
+            divResult.innerHTML = atitles.join("");
+
             //分頁
             // console.log(datas.totalPages);
             let liPaging = "";
             for (let i = 1, max = datas.totalPages; i <= max; i++) {
-                liPaging += ` <li class="page-item" onclick="pagingHandler(${i})"><a class="page-link" href="#">${i}</a></li>`
+                liPaging += ` <li class="page-item" " onclick="pagingHandler(${i})"><a class="page-link" href="#">${i}</a></li>`
             }
             ulPaging.innerHTML = liPaging;
+
+            inpKeyword.addEventListener('input', async (event) => {
+                //console.log(event);
+                console.log(event.target.value);
+                searchData.title = event.target.value;
+
+                
+
+
+            })
         };
         //點選第幾頁的分頁
         const pagingHandler = page => {
             searchData.page = page;
+            //console.log(page);
             loadSpots();
         }
 
@@ -86,14 +107,15 @@
                 //target
                 searchData.keyword = event.target.value;
                 //做搜尋時，回第一頁
-                searchData.page = 1;
+                searchData.page = 2/4;
                 loadSpots();
             }
         })
 
+
         loadSpots();
 
-        //document.querySelector('#1').addEventListener('click', (e) => { console.log(e.target.value) })
+        //div1.addEventListener('click', (e) => { console.log(e.target.getAttribute('value') })
     </script>
 }
 
